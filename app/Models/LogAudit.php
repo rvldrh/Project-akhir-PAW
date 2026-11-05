@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class log_audit extends Model
+class LogAudit extends Model
 {
     //
 }
