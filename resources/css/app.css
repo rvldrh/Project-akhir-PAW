@@ -5,26 +5,338 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+:root {
+    /* Typography Scale */
+    --font-hero: 3.813rem;
+    --font-h1: 3.063rem;
+    --font-h2: 2.438rem;
+    --font-h3: 1.938rem;
+    --font-h4: 1.563rem;
+    --font-h5: 1.25rem;
+    --font-base: 1rem;
+    --font-sm: 0.813rem;
+    --font-xs: 0.625rem;
+
+    /* Midnight Navy */
+    --navy-50: rgb(221, 231, 233);
+    --navy-100: rgb(218, 219, 221);
+    --navy-200: rgb(179, 181, 183);
+    --navy-500: rgb(10, 13, 30);
+    --navy-600: rgb(19, 14, 27);
+    --navy-700: rgb(8, 12, 24);
+    --navy-800: rgb(11, 22, 33);
+    --navy-900: rgb(6, 9, 18);
+    --navy-950: rgb(5, 7, 13);
+    --navy-1000: rgb(4, 5, 11);
+
+    /* Electric Blue */
+    --blue-50: rgb(237, 243, 255);
+    --blue-100: rgb(228, 238, 254);
+    --blue-200: rgb(200, 219, 253);
+    --blue-500: rgb(75, 127, 253);
+    --blue-600: rgb(71, 114, 228);
+    --blue-700: rgb(63, 102, 203);
+    --blue-800: rgb(58, 95, 189);
+    --blue-900: rgb(47, 79, 158);
+    --blue-950: rgb(38, 63, 126);
+    --blue-1000: rgb(28, 44, 88);
+
+    /* Violet */
+    --violet-50: rgb(242, 239, 255);
+    --violet-100: rgb(235, 231, 255);
+    --violet-200: rgb(214, 204, 254);
+    --violet-500: rgb(124, 92, 252);
+    --violet-600: rgb(112, 83, 227);
+    --violet-700: rgb(99, 74, 202);
+    --violet-800: rgb(93, 69, 189);
+    --violet-900: rgb(74, 55, 151);
+    --violet-950: rgb(66, 49, 134);
+    --violet-1000: rgb(43, 32, 88);
+
+    /* Emerald */
+    --emerald-50: rgb(236, 250, 245);
+    --emerald-100: rgb(226, 247, 240);
+    --emerald-200: rgb(195, 239, 224);
+    --emerald-500: rgb(62, 200, 154);
+    --emerald-600: rgb(56, 180, 139);
+    --emerald-700: rgb(50, 160, 123);
+    --emerald-800: rgb(47, 150, 116);
+    --emerald-900: rgb(37, 120, 93);
+    --emerald-950: rgb(34, 100, 80);
+    --emerald-1000: rgb(22, 70, 54);
+
+    /* Coral */
+    --coral-50: rgb(255, 240, 240);
+    --coral-100: rgb(255, 233, 233);
+    --coral-200: rgb(255, 209, 209);
+    --coral-500: rgb(255, 107, 107);
+    --coral-600: rgb(230, 96, 96);
+    --coral-700: rgb(204, 86, 86);
+    --coral-800: rgb(191, 80, 80);
+    --coral-900: rgb(153, 64, 64);
+    --coral-950: rgb(133, 56, 56);
+    --coral-1000: rgb(89, 37, 37);
+
+    /* Ghost White */
+    --ghost-50: rgb(254, 254, 255);
+    --ghost-100: rgb(253, 253, 255);
+    --ghost-200: rgb(250, 252, 255);
+    --ghost-500: rgb(240, 244, 255);
+    --ghost-600: rgb(218, 226, 235);
+    --ghost-700: rgb(192, 195, 204);
+    --ghost-800: rgb(180, 183, 191);
+    --ghost-900: rgb(144, 146, 153);
+    --ghost-950: rgb(108, 110, 115);
+    --ghost-1000: rgb(84, 85, 89);
+
+    /* Semantic Variables */
+    --background: var(--blue-1000);
+    --foreground: var(--ghost-50);
+
+    --color-primary: var(--blue-500);
+    --color-secondary: var(--violet-500);
+    --color-accent: var(--emerald-500);
+    --color-danger: var(--coral-500);
+}
+
+/* =========================================
+   TAILWIND THEME MAPPING
+   ========================================= */
+
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-    --color-primary-50: #edf3ff;
-    --color-primary-100: #e4eefe;
-    --color-primary-500: #4b7ffd;
-    --color-primary-600: #4772e4;
-    --color-primary-700: #3f66cb;
-    --color-primary-900: #2f4f9e;
+    --font-size-hero: var(--font-hero);
+    --font-size-h1: var(--font-h1);
+    --font-size-h2: var(--font-h2);
+    --font-size-h3: var(--font-h3);
+    --font-size-h4: var(--font-h4);
+    --font-size-h5: var(--font-h5);
+    --font-size-sm: var(--font-sm);
+    --font-size-xs: var(--font-xs);
 
-    --color-navy-500: #0a0d1e;
-    --color-navy-700: #080c18;
-    --color-navy-900: #060912;
-    --color-navy-950: #05070d;
+    --color-navy-50: var(--navy-50);
+    --color-navy-100: var(--navy-100);
+    --color-navy-200: var(--navy-200);
+    --color-navy-500: var(--navy-500);
+    --color-navy-600: var(--navy-600);
+    --color-navy-700: var(--navy-700);
+    --color-navy-800: var(--navy-800);
+    --color-navy-900: var(--navy-900);
+    --color-navy-950: var(--navy-950);
+    --color-navy-1000: var(--navy-1000);
 
-    --color-success: #3ec89a;
-    --color-warning: #f5b942;
-    --color-danger: #ff6b6b;
+    --color-blue-50: var(--blue-50);
+    --color-blue-100: var(--blue-100);
+    --color-blue-200: var(--blue-200);
+    --color-blue-500: var(--blue-500);
+    --color-blue-600: var(--blue-600);
+    --color-blue-700: var(--blue-700);
+    --color-blue-800: var(--blue-800);
+    --color-blue-900: var(--blue-900);
+    --color-blue-950: var(--blue-950);
+    --color-blue-1000: var(--blue-1000);
 
-    --color-surface: #ffffff;
-    --color-background: #f8fafc;
-    --color-border: #e2e8f0;
+    --color-violet-50: var(--violet-50);
+    --color-violet-100: var(--violet-100);
+    --color-violet-200: var(--violet-200);
+    --color-violet-500: var(--violet-500);
+    --color-violet-600: var(--violet-600);
+    --color-violet-700: var(--violet-700);
+    --color-violet-800: var(--violet-800);
+    --color-violet-900: var(--violet-900);
+    --color-violet-950: var(--violet-950);
+    --color-violet-1000: var(--violet-1000);
+
+    --color-emerald-50: var(--emerald-50);
+    --color-emerald-100: var(--emerald-100);
+    --color-emerald-200: var(--emerald-200);
+    --color-emerald-500: var(--emerald-500);
+    --color-emerald-600: var(--emerald-600);
+    --color-emerald-700: var(--emerald-700);
+    --color-emerald-800: var(--emerald-800);
+    --color-emerald-900: var(--emerald-900);
+    --color-emerald-950: var(--emerald-950);
+    --color-emerald-1000: var(--emerald-1000);
+
+    --color-coral-50: var(--coral-50);
+    --color-coral-100: var(--coral-100);
+    --color-coral-200: var(--coral-200);
+    --color-coral-500: var(--coral-500);
+    --color-coral-600: var(--coral-600);
+    --color-coral-700: var(--coral-700);
+    --color-coral-800: var(--coral-800);
+    --color-coral-900: var(--coral-900);
+    --color-coral-950: var(--coral-950);
+    --color-coral-1000: var(--coral-1000);
+
+    --color-ghost-50: var(--ghost-50);
+    --color-ghost-100: var(--ghost-100);
+    --color-ghost-200: var(--ghost-200);
+    --color-ghost-500: var(--ghost-500);
+    --color-ghost-600: var(--ghost-600);
+    --color-ghost-700: var(--ghost-700);
+    --color-ghost-800: var(--ghost-800);
+    --color-ghost-900: var(--ghost-900);
+    --color-ghost-950: var(--ghost-950);
+    --color-ghost-1000: var(--ghost-1000);
+
+    --color-primary: var(--blue-500);
+    --color-secondary: var(--violet-500);
+    --color-accent: var(--emerald-500);
+    --color-danger: var(--coral-500);
+}
+
+/* =========================================
+   GLOBAL
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--blue-1000);
+    color: var(--ghost-50);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    color: white;
+    background: var(--blue-500);
+}
+
+/* =========================================
+   COMING SOON VISUALS
+   ========================================= */
+
+.coming-soon-bg {
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(75, 127, 253, 0.19),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(124, 92, 252, 0.18),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            var(--blue-1000) 0%,
+            var(--navy-700) 48%,
+            var(--navy-900) 100%
+        );
+}
+
+.coming-soon-grid {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 58px 58px;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 90%);
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+.coming-soon-glass {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.10),
+        rgba(255, 255, 255, 0.025)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+}
+
+.coming-soon-gradient {
+    background: linear-gradient(
+        100deg,
+        var(--ghost-50) 10%,
+        var(--blue-200) 48%,
+        var(--violet-200) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.coming-soon-orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(1px);
+    will-change: transform;
+}
+
+.coming-soon-orb-blue {
+    background: radial-gradient(
+        circle at 35% 30%,
+        rgba(75, 127, 253, 0.7),
+        rgba(75, 127, 253, 0.03) 70%
+    );
+}
+
+.coming-soon-orb-violet {
+    background: radial-gradient(
+        circle at 35% 30%,
+        rgba(124, 92, 252, 0.65),
+        rgba(124, 92, 252, 0.02) 70%
+    );
+}
+
+.coming-soon-orb-emerald {
+    background: radial-gradient(
+        circle at 35% 30%,
+        rgba(62, 200, 154, 0.45),
+        rgba(62, 200, 154, 0.02) 70%
+    );
+}
+
+.coming-soon-ring {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+}
+
+.coming-soon-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--emerald-500);
+    box-shadow: 0 0 16px rgba(62, 200, 154, 0.8);
+}
+
+.coming-soon-label {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(255, 255, 255, 0.055);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+.coming-soon-divider {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+    }
 }
