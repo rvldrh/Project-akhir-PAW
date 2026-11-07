@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Satpam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
-use App\Models\LogAudit;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class BarangController extends Controller
@@ -20,6 +20,7 @@ class BarangController extends Controller
         $totalSelesai = Barang::where('status_barang', 'Selesai')->count();
 
         $barangTerbaru = Barang::with('pencatat')
+            ->latest('tanggal_ditemukan')
             ->latest('created_at')
             ->take(5)
             ->get();
@@ -35,11 +36,43 @@ class BarangController extends Controller
 
     public function index(Request $request): View
     {
-        $barangList = Barang::with('pencatat')
-            ->latest()
-            ->paginate(15);
+        $search = trim((string) $request->input('search'));
+        $kategori = $request->input('kategori');
+        $statusBarang = $request->input('status_barang');
 
-        return view('satpam.barang.index', compact('barangList'));
+        $query = Barang::with('pencatat');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                  ->orWhere('deskripsi_umum', 'like', "%{$search}%")
+                  ->orWhere('lokasi_penyimpanan', 'like', "%{$search}%");
+            });
+        }
+
+        if (!empty($kategori)) {
+            $query->where('kategori', $kategori);
+        }
+
+        if (!empty($statusBarang)) {
+            $query->where('status_barang', $statusBarang);
+        }
+
+        $barangList = $query->latest('tanggal_ditemukan')
+            ->latest('created_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        $kategoriList = Barang::distinct()->orderBy('kategori')->pluck('kategori');
+        $statusList = ['Ditemukan', 'Menunggu Klaim', 'Diklaim', 'Selesai'];
+
+        $filters = [
+            'search' => $search,
+            'kategori' => $kategori,
+            'status_barang' => $statusBarang,
+        ];
+
+        return view('satpam.barang.index', compact('barangList', 'kategoriList', 'statusList', 'filters'));
     }
 
     public function create(): View
@@ -49,7 +82,57 @@ class BarangController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route('satpam.dashboard');
+        $validated = $request->validate([
+            'nama_barang'        => ['required', 'string', 'max:100'],
+            'kategori'           => ['required', 'string', 'max:50'],
+            'deskripsi_umum'     => ['nullable', 'string'],
+            'tanggal_ditemukan'  => ['required', 'date', 'before_or_equal:today'],
+            'ciri_khusus'        => ['required', 'string'],
+            'merek'              => ['nullable', 'string', 'max:50'],
+            'warna'              => ['nullable', 'string', 'max:30'],
+            'nomor_seri'         => ['nullable', 'string', 'max:100'],
+            'lokasi_penyimpanan' => ['required', 'string', 'max:150'],
+        ]);
+
+        $idPengguna = $request->user()->id_pengguna;
+
+        DB::transaction(function () use ($validated, $idPengguna) {
+            $barang = Barang::create([
+                'id_pengguna'        => $idPengguna,
+                'nama_barang'        => $validated['nama_barang'],
+                'kategori'           => $validated['kategori'],
+                'deskripsi_umum'     => $validated['deskripsi_umum'] ?? null,
+                'tanggal_ditemukan'  => $validated['tanggal_ditemukan'],
+                'ciri_khusus'        => $validated['ciri_khusus'],
+                'merek'              => $validated['merek'] ?? null,
+                'warna'              => $validated['warna'] ?? null,
+                'nomor_seri'         => $validated['nomor_seri'] ?? null,
+                'lokasi_penyimpanan' => $validated['lokasi_penyimpanan'],
+                'status_barang'      => 'Ditemukan',
+            ]);
+
+            DB::table('log_audits')->insert([
+                'id_log'          => (string) Str::uuid(),
+                'id_pengguna'     => $idPengguna,
+                'waktu'           => now(),
+                'jenis_aktivitas' => 'CREATE',
+                'jenis_entitas'   => 'PENCATATAN_BARANG',
+                'id_entitas'      => $barang->id_barang,
+                'nilai_sebelum'   => null,
+                'nilai_sesudah'   => json_encode([
+                    'nama_barang'        => $barang->nama_barang,
+                    'kategori'           => $barang->kategori,
+                    'status_barang'      => $barang->status_barang,
+                    'lokasi_penyimpanan' => $barang->lokasi_penyimpanan,
+                ], JSON_UNESCAPED_UNICODE),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+        });
+
+        return redirect()
+            ->route('satpam.dashboard')
+            ->with('success', 'Barang temuan berhasil dicatat.');
     }
 
     public function show(string $id): View
